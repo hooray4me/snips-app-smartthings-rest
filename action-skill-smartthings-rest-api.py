@@ -24,10 +24,11 @@ class Lights(object):
 
     def controlDevice_callback(self, hermes, intent_message):
 
-        if intent_message.slots.lights:
-            light = intent_message.slots.lightsNames.first().value
-        if intent_message.slots.onOff:
-            myaction = intent_message.slots.onOff.first().value
+
+        light = intent_message.slots.mylights.first().value
+        myaction = intent_message.slots.command.first().value
+        print(light)
+        print(myaction)
         token = self.config.get("secret").get("bearer-auth-token")
         api = self.config.get("secret").get("rest-api-url")
         auth = 'Bearer ' + token.encode("utf-8")
