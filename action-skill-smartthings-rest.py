@@ -34,14 +34,8 @@ class Mylights(object):
         auth = 'Bearer ' + token
         header = {'Authorization': auth, 'Content-Type': 'application/json'}
         d=self.config.get("secret").get("devices")
-#        DeviceIDs = ['09b0803c-cfe3-4b8a-8fc0-e8161701ade4', '2537cac5-2c28-454f-bdc2-5741ae4c44c4',  '7c792f42-a018-4664-af72-d41cf93b49df', '1d9b3329-4d6f-493d-baac-1ee84cec75e8', '5d5a7635-f1a5-40ac-ad1f-d75967545824']
-        print(d)
         a=d.split(",")
-        print(a)
         DeviceIDs = dict(s.split(':') for s in a)
-        print(DeviceIDs)
-        print(len(DeviceIDs))
-        #print(DeviceIDs['Main Area'])
         if device == "lights":
             target = "all_lights"
         elif device == "lamps":
@@ -50,14 +44,13 @@ class Mylights(object):
             target == "one_light"
         if target == "all_lights":
             if myaction == "on" or myaction == "off":
-                #for index in range(len(DeviceIDs)):
                 for k, v in DeviceIDs.items():
-                    #uri=api + '/device/' + DeviceIDs[index] + '/command/' + myaction
+                    uri=api + '/device/' + str(v) + '/command/' + myaction
                     #print(DeviceIDs[index])
                     print(str(v))
                     #print(uri)
                     #print(header)
-                    #response = requests.get(uri, headers=header)
+                    response = requests.get(uri, headers=header)
                 hermes.publish_end_session(intent_message.session_id, "Turning " + myaction + " " + device)
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
