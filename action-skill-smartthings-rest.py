@@ -44,7 +44,7 @@ class Mylights(object):
             if myaction == "on" or myaction == "off":
                 for index in range(len(DeviceIDs)):
                     uri=api + '/device/' + DeviceIDs[index] + '/command/' + myaction
-                    print(url)
+                    print(uri)
                     print(header)
                     response = get(uri, headers=header)
                 hermes.publish_end_session(intent_message.session_id, "Turning " + myaction + " " + device)
