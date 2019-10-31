@@ -1,1 +1,1 @@
-# snips-app-smartthings-rest-api
+# snips-SmartThings-REST-API
