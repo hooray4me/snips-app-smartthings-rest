@@ -35,7 +35,9 @@ class Mylights(object):
         header = {'Authorization': auth, 'Content-Type': 'application/json'}
         d=self.config.get("secret").get("devices")
 #        DeviceIDs = ['09b0803c-cfe3-4b8a-8fc0-e8161701ade4', '2537cac5-2c28-454f-bdc2-5741ae4c44c4',  '7c792f42-a018-4664-af72-d41cf93b49df', '1d9b3329-4d6f-493d-baac-1ee84cec75e8', '5d5a7635-f1a5-40ac-ad1f-d75967545824']
-        DeviceIDs = dict(s.split(':') for s in d)
+        a= [ d ]
+        print(a)
+        DeviceIDs = dict(s.split(':') for s in a)
         print(DeviceIDs)
         print(len(DeviceIDs))
         #print(DeviceIDs['Main Area'])
