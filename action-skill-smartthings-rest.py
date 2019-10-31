@@ -46,7 +46,7 @@ class Mylights(object):
                     uri=api + '/device/' + DeviceIDs[index] + '/command/' + myaction
                     print(uri)
                     print(header)
-                    response = get(uri, headers=header)
+                    response = requests.get(uri, headers=header)
                 hermes.publish_end_session(intent_message.session_id, "Turning " + myaction + " " + device)
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
