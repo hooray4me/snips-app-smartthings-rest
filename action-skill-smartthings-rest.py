@@ -50,9 +50,11 @@ class Mylights(object):
             target == "one_light"
         if target == "all_lights":
             if myaction == "on" or myaction == "off":
-                for index in range(len(DeviceIDs)):
+                #for index in range(len(DeviceIDs)):
+                for k, v in DeviceIDs.items():
                     #uri=api + '/device/' + DeviceIDs[index] + '/command/' + myaction
-                    print(DeviceIDs[index])
+                    #print(DeviceIDs[index])
+                    print(str(v))
                     #print(uri)
                     #print(header)
                     #response = requests.get(uri, headers=header)
