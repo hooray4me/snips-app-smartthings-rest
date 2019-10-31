@@ -26,8 +26,10 @@ class Mylights(object):
 
         device = intent_message.slots.device.first().value
         myaction = intent_message.slots.cmd.first().value
-        token = self.config.get("secret").get("bearer-auth-token").encode("utf-8")
-        api = self.config.get("secret").get("rest-api-url").encode("utf-8")
+        token = self.config.get("secret").get("bearer-auth-token")
+        api = self.config.get("secret").get("rest-api-url")
+        print(token)
+        print(api)
         auth = 'Bearer ' + token
         header = {'Authorization': auth, 'Content-Type': 'application/json'}
         DeviceIDs = ['09b0803c-cfe3-4b8a-8fc0-e8161701ade4', '2537cac5-2c28-454f-bdc2-5741ae4c44c4',  '7c792f42-a018-4664-af72-d41cf93b49df', '1d9b3329-4d6f-493d-baac-1ee84cec75e8', '5d5a7635-f1a5-40ac-ad1f-d75967545824']
