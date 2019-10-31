@@ -22,15 +22,15 @@ class Mylights(object):
 
     def execCommand_callback(self, hermes, intent_message):
 
-        device = intent_message.slots.mylights.first().value
-        myaction = intent_message.slots.command.first().value
+        device = intent_message.slots.device.first().value
+        myaction = intent_message.slots.cmd.first().value
         print(device)
         print(myaction)
         hermes.publish_end_session(intent_message.session_id, device + " " + myaction)
-  
+
     def master_intent_callback(self,hermes, intent_message):
         coming_intent = intent_message.intent.intent_name
-        if coming_intent == 'hooray4me:powerToggleDevice':
+        if coming_intent == 'hooray4me:lights':
             self.execCommand_callback(hermes, intent_message)
 
 
