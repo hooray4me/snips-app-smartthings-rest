@@ -25,9 +25,9 @@ class Lights(object):
     def controlDevice_callback(self, hermes, intent_message):
 
         if intent_message.slots.lights:
-            light = intent_message.slots.lights.first().value
+            light = intent_message.slots.lightsNames.first().value
         if intent_message.slots.onOff:
-            action = intent_message.slots.onOff.first().value
+            myaction = intent_message.slots.onOff.first().value
         token = self.config.get("secret").get("bearer-auth-token")
         api = self.config.get("secret").get("rest-api-url")
         auth = 'Bearer ' + token.encode("utf-8")
@@ -41,9 +41,9 @@ class Lights(object):
         else:
             target == "one_light"
         if target == "all_lights":
-            if action == "on" or action == "off":
+            if myaction == "on" or myaction == "off":
                 for index in range(len(DeviceIDs)):
-                    uri=api.encode("utf-8") + '/device/' + DeviceIDs[index] + '/command/' + action.encode("utf-8")
+                    uri=api.encode("utf-8") + '/device/' + DeviceIDs[index] + '/command/' + myaction.encode("utf-8")
                     print(url)
                     print(header)
                     response = get(uri, headers=header)
