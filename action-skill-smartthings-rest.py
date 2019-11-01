@@ -49,6 +49,7 @@ class Mylights(object):
         d=self.config.get("secret").get("devices")
         a=d.split(",")
         DeviceIDs = dict(s.split(':') for s in a)
+        print(DeviceIDs)
         if device == "lights":
             target = "all_lights"
         elif device == "lamps":
@@ -62,10 +63,11 @@ class Mylights(object):
                     uri=api + '/device/' + str(v) + '/attribute/level'
                     response = requests.get(uri, headers=header)
                     r =response.json().get("value")
-                    print(str(k) + " " + r)
+                    print(k)
+                    print(r)
                     if isinstance(r, int):
-                        print(str(k) + " up " + roundup(r))
-                        print(str(k) + " down " + rounddown(r))
+                        print(roundup(r))
+                        print(rounddown(r))
                 hermes.publish_end_session(intent_message.session_id, "I've Turned " + myaction + " the " + device + " your magesty")
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
