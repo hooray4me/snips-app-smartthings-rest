@@ -15,6 +15,9 @@ MQTT_PORT: int = 1883
 MQTT_ADDR: str = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
 def roundup(x):
+    i=[20,30,40,50,60,70,80,90]
+    for x in i:
+        x=x+1
     y = int(math.ceil(x / 10.0)) * 10
     if y > 100:
         return 100
@@ -22,6 +25,9 @@ def roundup(x):
         return y
 
 def rounddown(x):
+    i=[20,30,40,50,60,70,80,90]
+    for x in i:
+        x=x-1
     y = int(math.floor(x / 10.0)) * 10
     if y < 10:
         return 10
