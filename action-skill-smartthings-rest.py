@@ -99,6 +99,7 @@ class Mylights(object):
                     if isinstance(r, int):
                         uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
                         response = requests.get(uri, headers=header)
+                else:
             elif target == "one_light":
                 if k == device:
                     if myaction == "on" or myaction == "off":
@@ -108,18 +109,24 @@ class Mylights(object):
                         uri=api + '/device/' + str(v) + '/attribute/level'
                         response = requests.get(uri, headers=header)
                         r=response.json().get("value")
+                        print(r)
                         if isinstance(r, int):
                             uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(roundup(r))
+                            print(uri)
                             response = requests.get(uri, headers=header)
                     elif myaction == "down":
                         uri=api + '/device/' + str(v) + '/attribute/level'
                         response = requests.get(uri, headers=header)
                         r=response.json().get("value")
+                        print(r)
                         if isinstance(r, int):
                             uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
+                            print(uri)
                             response = requests.get(uri, headers=header)
+                    else:
+                else:
             else:
-                hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
+                hermes.publish_end_session(intent_message.session_id, "uh oh, somethings not right")
         if myaction == "on" or myaction == "off":
             hermes.publish_end_session(intent_message.session_id, saucy() + "I've Turned " + myaction + " the " + device + " your magesty")
         elif myaction == "up" or myaction == "down":
