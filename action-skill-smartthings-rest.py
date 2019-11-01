@@ -6,6 +6,7 @@ from hermes_python.ontology import *
 import io
 import requests
 import json
+import math
 
 CONFIG_INI = "config.ini"
 
@@ -14,6 +15,20 @@ MQTT_PORT: int = 1883
 MQTT_ADDR: str = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
 class Mylights(object):
+
+    def roundup(x):
+        y = int(math.ceil(x / 10.0)) * 10
+        if y > 100:
+            return 100
+        else:
+            return y
+
+    def rounddown(x):
+        y = int(math.floor(x / 10.0)) * 10
+        if y < 10:
+            return 10
+        else:
+            return y
 
     def __init__(self):
         try:
@@ -47,6 +62,8 @@ class Mylights(object):
                     uri=api + '/device/' + str(v) + '/attribute/level'
                     response = requests.get(uri, headers=header)
                     print(response.json().get("value"))
+                    print(roundup(response.json().get("value")))
+                    print(rounddown(response.json().get("value")))
                 hermes.publish_end_session(intent_message.session_id, "I've Turned " + myaction + " the " + device + " your magesty")
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
