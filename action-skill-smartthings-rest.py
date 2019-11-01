@@ -60,6 +60,8 @@ class Mylights(object):
         a=d.split(",")
         DeviceIDs = dict(s.split(':') for s in a)
         print(DeviceIDs)
+        target=None
+        print(device)
         if device == "lights":
             target = "all_lights"
         elif device == "lamps":
