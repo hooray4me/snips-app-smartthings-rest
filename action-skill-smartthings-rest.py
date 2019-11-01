@@ -66,7 +66,7 @@ class Mylights(object):
         elif device == "lamps":
             target = "lamps"
         else:
-            target == "one_light"
+            target = "one_light"
 
         print("target=" + str(target))
 #        if target == "all_lights":
