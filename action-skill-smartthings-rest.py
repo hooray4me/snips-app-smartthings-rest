@@ -68,7 +68,7 @@ class Mylights(object):
             target = "lamps"
         else:
             target == "one_light"
-        print("target=" + target)
+        print("target=" + str(target))
 #        if target == "all_lights":
 #            if myaction == "on" or myaction == "off":
 #                for k, v in DeviceIDs.items():
@@ -82,7 +82,7 @@ class Mylights(object):
 #                        print(roundup(r))
 #                        print(rounddown(r))
         for k, v in DeviceIDs.items():
-            if target == "all_lights":
+            if str(target) == "all_lights":
                 if myaction == "on" or myaction == "off":
                     uri=api + '/device/' + str(v) + '/command/' + myaction
                     response = requests.get(uri, headers=header)
@@ -100,7 +100,7 @@ class Mylights(object):
                     if isinstance(r, int):
                         uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
                         response = requests.get(uri, headers=header)
-            elif target == "one_light":
+            elif str(target) == "one_light":
                 print("current " + str(k))
                 if str(k) == device:
                     if myaction == "on" or myaction == "off":
