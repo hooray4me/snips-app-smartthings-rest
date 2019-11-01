@@ -68,6 +68,7 @@ class Mylights(object):
             target = "lamps"
         else:
             target == "one_light"
+        print("target=" + target)
 #        if target == "all_lights":
 #            if myaction == "on" or myaction == "off":
 #                for k, v in DeviceIDs.items():
