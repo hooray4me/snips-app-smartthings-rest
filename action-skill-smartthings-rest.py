@@ -62,19 +62,64 @@ class Mylights(object):
             target = "lamps"
         else:
             target == "one_light"
-        if target == "all_lights":
-            if myaction == "on" or myaction == "off":
-                for k, v in DeviceIDs.items():
-                    #uri=api + '/device/' + str(v) + '/command/' + myaction
+#        if target == "all_lights":
+#            if myaction == "on" or myaction == "off":
+#                for k, v in DeviceIDs.items():
+#                    #uri=api + '/device/' + str(v) + '/command/' + myaction
+#                    uri=api + '/device/' + str(v) + '/attribute/level'
+#                    response = requests.get(uri, headers=header)
+#                    r =response.json().get("value")
+#                    print(k)
+#                    print(r)
+#                    if isinstance(r, int):
+#                        print(roundup(r))
+#                        print(rounddown(r))
+        for k, v in DeviceIDs.items():
+            if target == "all_lights":
+                if myaction == "on" or myaction == "off":
+                    uri=api + '/device/' + str(v) + '/command/' + myaction
+                    response = requests.get(uri, headers=header)
+                elif myaction == "up":
                     uri=api + '/device/' + str(v) + '/attribute/level'
                     response = requests.get(uri, headers=header)
-                    r =response.json().get("value")
-                    print(k)
-                    print(r)
+                    r=response.json().get("value")
                     if isinstance(r, int):
-                        print(roundup(r))
-                        print(rounddown(r))
-                hermes.publish_end_session(intent_message.session_id, "I've Turned " + myaction + " the " + device + " your magesty")
+                        uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + roundup(r)
+                        response = requests.get(uri, headers=header)
+                elif myaction == "down":
+                    uri=api + '/device/' + str(v) + '/attribute/level'
+                    response = requests.get(uri, headers=header)
+                    r=response.json().get("value")
+                    if isinstance(r, int):
+                        uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + rounddown(r)
+                        response = requests.get(uri, headers=header)
+                    uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + rounddown(response.json().get("value"))
+                    response = requests.get(uri, headers=header)
+            elif target == "one_light":
+                if k == device:
+                    if myaction == "on" or myaction == "off":
+                        uri=api + '/device/' + str(v) + '/command/' + myaction
+                        response = requests.get(uri, headers=header)
+                    elif myaction == "up":
+                        uri=api + '/device/' + str(v) + '/attribute/level'
+                        response = requests.get(uri, headers=header)
+                        r=response.json().get("value")
+                        if isinstance(r, int):
+                            uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + roundup(r)
+                            response = requests.get(uri, headers=header)
+                    elif myaction == "down":
+                        uri=api + '/device/' + str(v) + '/attribute/level'
+                        response = requests.get(uri, headers=header)
+                        r=response.json().get("value")
+                        if isinstance(r, int):
+                            uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + rounddown(r)
+                            response = requests.get(uri, headers=header)
+            else:
+                hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
+        if myaction == "on" or myaction == "off":
+            hermes.publish_end_session(intent_message.session_id, "I've Turned " + myaction + " the " + device + " your magesty")
+        elif myaction == "up" or myaction == "down":
+            hermes.publish_end_session(intent_message.session_id, "I've Turned " + myaction + " the " + device + " your magesty")
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
 
