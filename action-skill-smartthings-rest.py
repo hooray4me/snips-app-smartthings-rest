@@ -14,21 +14,21 @@ MQTT_IP_ADDR: str = "localhost"
 MQTT_PORT: int = 1883
 MQTT_ADDR: str = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
+def roundup(x):
+    y = int(math.ceil(x / 10.0)) * 10
+    if y > 100:
+        return 100
+    else:
+        return y
+
+def rounddown(x):
+    y = int(math.floor(x / 10.0)) * 10
+    if y < 10:
+        return 10
+    else:
+        return y
+
 class Mylights(object):
-
-    def roundup(x):
-        y = int(math.ceil(x / 10.0)) * 10
-        if y > 100:
-            return 100
-        else:
-            return y
-
-    def rounddown(x):
-        y = int(math.floor(x / 10.0)) * 10
-        if y < 10:
-            return 10
-        else:
-            return y
 
     def __init__(self):
         try:
