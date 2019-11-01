@@ -100,7 +100,8 @@ class Mylights(object):
                         uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
                         response = requests.get(uri, headers=header)
             elif target == "one_light":
-                if k == device:
+                print("current " + str(k))
+                if str(k) == device:
                     if myaction == "on" or myaction == "off":
                         uri=api + '/device/' + str(v) + '/command/' + myaction
                         response = requests.get(uri, headers=header)
