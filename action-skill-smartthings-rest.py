@@ -122,9 +122,6 @@ class Mylights(object):
                             uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
                             print(uri)
                             response = requests.get(uri, headers=header)
-                    else:
-            else:
-                hermes.publish_end_session(intent_message.session_id, "uh oh, somethings not right")
         if myaction == "on" or myaction == "off":
             hermes.publish_end_session(intent_message.session_id, saucy() + "I've Turned " + myaction + " the " + device + " your magesty")
         elif myaction == "up" or myaction == "down":
