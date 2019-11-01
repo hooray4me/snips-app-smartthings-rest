@@ -29,8 +29,6 @@ class Mylights(object):
         myaction = intent_message.slots.cmd.first().value
         token = self.config.get("secret").get("bearer-auth-token")
         api = self.config.get("secret").get("rest-api-url")
-        print(token)
-        print(api)
         auth = 'Bearer ' + token
         header = {'Authorization': auth, 'Content-Type': 'application/json'}
         d=self.config.get("secret").get("devices")
@@ -45,13 +43,11 @@ class Mylights(object):
         if target == "all_lights":
             if myaction == "on" or myaction == "off":
                 for k, v in DeviceIDs.items():
-                    uri=api + '/device/' + str(v) + '/command/' + myaction
-                    #print(DeviceIDs[index])
-                    print(str(v))
-                    #print(uri)
-                    #print(header)
+                    #uri=api + '/device/' + str(v) + '/command/' + myaction
+                    uri=api + '/device/' + str(v) + '/attribute/level'
                     response = requests.get(uri, headers=header)
-                hermes.publish_end_session(intent_message.session_id, "Turning " + myaction + " " + device)
+                    print(response.json().get("value"))
+                hermes.publish_end_session(intent_message.session_id, "I've Turned " + myaction + " the " + device + " your magesty")
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
 
