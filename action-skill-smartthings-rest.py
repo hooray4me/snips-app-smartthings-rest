@@ -62,10 +62,10 @@ class Mylights(object):
                     uri=api + '/device/' + str(v) + '/attribute/level'
                     response = requests.get(uri, headers=header)
                     r =response.json().get("value")
-                    print(str(k) + " " + r)
+                    print(k + " " + r)
                     if isinstance(r, int):
-                        print(str(k) + " up " + roundup(r)
-                        print(str(k) + " down " + rounddown(r)
+                        print(k + " up " + roundup(r))
+                        print(k + " down " + rounddown(r))
                 hermes.publish_end_session(intent_message.session_id, "I've Turned " + myaction + " the " + device + " your magesty")
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
