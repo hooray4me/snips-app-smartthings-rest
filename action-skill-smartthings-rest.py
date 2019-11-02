@@ -15,7 +15,7 @@ MQTT_PORT: int = 1883
 MQTT_ADDR: str = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
 def saucy():
-    i=["Boom turn down for what ","abracadabra ","and like magic ","I did not want to but ","sheesh ","Good gravy ","I give and I give and I give ","If I did not know any better you would think I am your slave ","O Kelly Clarkson ","My circuits are tired ","It is time for a drink "]
+    i=["and like magic ","I did not want to but ","sheesh ","Good gravy ","I give and I give and I give ","If I did not know any better you would think I am your slave ","O Kelly Clarkson ","My circuits are tired ","It is time for a drink "]
     return random.choice(i)
 
 def roundup(x):
@@ -132,13 +132,13 @@ class Mylights(object):
                             response = requests.get(uri, headers=header)
 
         if myaction == "on" or myaction == "off":
-            p=saucy()
+            p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
             print(str(p))
-            hermes.publish_end_session(intent_message.session_id, str(p) + "I have Turned " + myaction + " the " + device + " Your Magesty")
+            hermes.publish_end_session(intent_message.session_id, str(p))
         elif myaction == "up" or myaction == "down":
-            p=saucy()
+            p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
             print(str(p))
-            hermes.publish_end_session(intent_message.session_id, str(p) + "I have Turned " + myaction + " the " + device + " Your Magesty")
+            hermes.publish_end_session(intent_message.session_id, str(p))
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
 
