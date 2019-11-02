@@ -134,11 +134,11 @@ class Mylights(object):
         if myaction == "on" or myaction == "off":
             p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
             print(str(p))
-            hermes.publish_end_session(intent_message.session_id, str(p))
+            hermes.publish_end_session(intent_message.session_id, p)
         elif myaction == "up" or myaction == "down":
             p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
             print(str(p))
-            hermes.publish_end_session(intent_message.session_id, str(p))
+            hermes.publish_end_session(intent_message.session_id, p)
         else:
             hermes.publish_end_session(intent_message.session_id, "Be boop be be boop, somethings not right")
 
