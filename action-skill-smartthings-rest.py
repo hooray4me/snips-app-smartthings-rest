@@ -82,80 +82,46 @@ class Mylights(object):
             if str(target) == "all_lights":
                 if myaction == "on" or myaction == "off":
                     getApi(api,header,str(v),myaction)
-                    #uri=api + '/device/' + str(v) + '/command/' + myaction
-                    #response = requests.get(uri, headers=header)
                     if myaction == "on":
                         getApi(api,header,str(v),"setLevel?arg=65")
-                        #uri=api + '/device/' + str(v) + '/command/setLevel?arg=65'
-                        #response = requests.get(uri, headers=header)
                 elif myaction == "up":
                     r=apiResponse(api,header,str(v))
-                    #uri=api + '/device/' + str(v) + '/attribute/level'
-                    #response = requests.get(uri, headers=header)
-                    #r=response.json().get("value")
                     if isinstance(r, int):
                         getApi(api,header,str(v),"setLevel?arg="+str(roundup(r)))
-                        #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(roundup(r))
-                        #response = requests.get(uri, headers=header)
                 elif myaction == "down":
                     r=apiResponse(api,header,str(v))
-                    #uri=api + '/device/' + str(v) + '/attribute/level'
-                    #response = requests.get(uri, headers=header)
-                    #r=response.json().get("value")
                     if isinstance(r, int):
                         getApi(api,header,str(v),"setLevel?arg="+str(rounddown(r)))
-                        #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
-                        #response = requests.get(uri, headers=header)
             elif str(target) == "one_light":
                 print("current " + str(k))
                 if str(k) == device:
                     if myaction == "on" or myaction == "off":
                         getApi(api,header,str(v),myaction)
-                        #uri=api + '/device/' + str(v) + '/command/' + myaction
-                        #response = requests.get(uri, headers=header)
+                        hermes.publish_end_session(intent_message.session_id, p)
                     elif myaction == "up":
                         r=apiResponse(api,header,str(v))
-                        #uri=api + '/device/' + str(v) + '/attribute/level'
-                        #response = requests.get(uri, headers=header)
-                        #r=response.json().get("value")
                         print(r)
                         if isinstance(r, int):
                             getApi(api,header,str(v),"setLevel?arg="+str(roundup(r)))
-                            #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(roundup(r))
-                            #print(uri)
-                            #response = requests.get(uri, headers=header)
+                            hermes.publish_end_session(intent_message.session_id, p)
                     elif myaction == "down":
-                        #uri=api + '/device/' + str(v) + '/attribute/level'
-                        #response = requests.get(uri, headers=header)
-                        #r=response.json().get("value")
                         print(r)
                         if isinstance(r, int):
                             getApi(api,header,str(v),"setLevel?arg="+str(rounddown(r)))
                             hermes.publish_end_session(intent_message.session_id, p)
-                            #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
-                            #print(uri)
-                            #response = requests.get(uri, headers=header)
-                hermes.publish_end_session(intent_message.session_id, p) 
+                    else:
+                        hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck") 
+                else:
+                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")    
             else:
                 hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
-        #if myaction == "on" or myaction == "off":
-        #    p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
-        #    print(str(p))
-        #    hermes.publish_end_session(intent_message.session_id, p)
-        #elif myaction == "up" or myaction == "down":
-        #    p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
-        #    print(str(p))
-        #    hermes.publish_end_session(intent_message.session_id, p)
-        #else:
-        #    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
-
+        if str(target) == "all_lights":
+            hermes.publish_end_session(intent_message.session_id, p)
     def master_intent_callback(self,hermes, intent_message):
         coming_intent = intent_message.intent.intent_name
         if coming_intent == 'hooray4me:lights':
             self.execCommand_callback(hermes, intent_message)
 
-
-    # register callback function to its intent and start listen to MQTT bus
     def start_blocking(self):
         with Hermes(MQTT_ADDR) as h:
             h.subscribe_intents(self.master_intent_callback).start()
