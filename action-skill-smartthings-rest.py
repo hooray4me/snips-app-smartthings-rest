@@ -86,6 +86,9 @@ class Mylights(object):
                 if myaction == "on" or myaction == "off":
                     uri=api + '/device/' + str(v) + '/command/' + myaction
                     response = requests.get(uri, headers=header)
+                    if myaction == "on":
+                        uri=api + '/device/' + str(v) + '/command/setLevel?arg=65'
+                        response = requests.get(uri, headers=header)
 
                 elif myaction == "up":
                     uri=api + '/device/' + str(v) + '/attribute/level'
