@@ -38,6 +38,15 @@ def rounddown(x):
     else:
         return y
 
+def getApi(api,header,id,cmd):
+    uri=api + '/device/' + str(id) + '/command/' + cmd
+    response = requests.get(uri, headers=header)
+
+def apiResponse(api,header,id):
+    uri=api + '/device/' + str(id) + '/attribute/level'
+    response = requests.get(uri, headers=header)
+    return response.json().get("value")
+
 class Mylights(object):
 
     def __init__(self):
@@ -58,6 +67,7 @@ class Mylights(object):
         header = {'Authorization': auth, 'Content-Type': 'application/json'}
         d=self.config.get("secret").get("devices")
         a=d.split(",")
+        p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
         DeviceIDs = dict(s.split(':') for s in a)
         print(DeviceIDs)
         print(device)
@@ -67,83 +77,77 @@ class Mylights(object):
             target = "lamps"
         else:
             target = "one_light"
-
         print("target=" + str(target))
-#        if target == "all_lights":
-#            if myaction == "on" or myaction == "off":
-#                for k, v in DeviceIDs.items():
-#                    #uri=api + '/device/' + str(v) + '/command/' + myaction
-#                    uri=api + '/device/' + str(v) + '/attribute/level'
-#                    response = requests.get(uri, headers=header)
-#                    r =response.json().get("value")
-#                    print(k)
-#                    print(r)
-#                    if isinstance(r, int):
-#                        print(roundup(r))
-#                        print(rounddown(r))
         for k, v in DeviceIDs.items():
             if str(target) == "all_lights":
                 if myaction == "on" or myaction == "off":
-                    uri=api + '/device/' + str(v) + '/command/' + myaction
-                    response = requests.get(uri, headers=header)
+                    getApi(api,header,str(v),myaction)
+                    #uri=api + '/device/' + str(v) + '/command/' + myaction
+                    #response = requests.get(uri, headers=header)
                     if myaction == "on":
-                        uri=api + '/device/' + str(v) + '/command/setLevel?arg=65'
-                        response = requests.get(uri, headers=header)
-
+                        getApi(api,header,str(v),"setLevel?arg=65")
+                        #uri=api + '/device/' + str(v) + '/command/setLevel?arg=65'
+                        #response = requests.get(uri, headers=header)
                 elif myaction == "up":
-                    uri=api + '/device/' + str(v) + '/attribute/level'
-                    response = requests.get(uri, headers=header)
-                    r=response.json().get("value")
+                    r=apiResponse(api,header,str(v))
+                    #uri=api + '/device/' + str(v) + '/attribute/level'
+                    #response = requests.get(uri, headers=header)
+                    #r=response.json().get("value")
                     if isinstance(r, int):
-                        uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(roundup(r))
-                        response = requests.get(uri, headers=header)
-
+                        getApi(api,header,str(v),"setLevel?arg="+str(roundup(r)))
+                        #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(roundup(r))
+                        #response = requests.get(uri, headers=header)
                 elif myaction == "down":
-                    uri=api + '/device/' + str(v) + '/attribute/level'
-                    response = requests.get(uri, headers=header)
-                    r=response.json().get("value")
+                    r=apiResponse(api,header,str(v))
+                    #uri=api + '/device/' + str(v) + '/attribute/level'
+                    #response = requests.get(uri, headers=header)
+                    #r=response.json().get("value")
                     if isinstance(r, int):
-                        uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
-                        response = requests.get(uri, headers=header)
-
+                        getApi(api,header,str(v),"setLevel?arg="+str(rounddown(r)))
+                        #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
+                        #response = requests.get(uri, headers=header)
             elif str(target) == "one_light":
                 print("current " + str(k))
                 if str(k) == device:
                     if myaction == "on" or myaction == "off":
-                        uri=api + '/device/' + str(v) + '/command/' + myaction
-                        response = requests.get(uri, headers=header)
-
+                        getApi(api,header,str(v),myaction)
+                        #uri=api + '/device/' + str(v) + '/command/' + myaction
+                        #response = requests.get(uri, headers=header)
                     elif myaction == "up":
-                        uri=api + '/device/' + str(v) + '/attribute/level'
-                        response = requests.get(uri, headers=header)
-                        r=response.json().get("value")
+                        r=apiResponse(api,header,str(v))
+                        #uri=api + '/device/' + str(v) + '/attribute/level'
+                        #response = requests.get(uri, headers=header)
+                        #r=response.json().get("value")
                         print(r)
-
                         if isinstance(r, int):
-                            uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(roundup(r))
-                            print(uri)
-                            response = requests.get(uri, headers=header)
-
+                            getApi(api,header,str(v),"setLevel?arg="+str(roundup(r)))
+                            #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(roundup(r))
+                            #print(uri)
+                            #response = requests.get(uri, headers=header)
                     elif myaction == "down":
-                        uri=api + '/device/' + str(v) + '/attribute/level'
-                        response = requests.get(uri, headers=header)
-                        r=response.json().get("value")
+                        #uri=api + '/device/' + str(v) + '/attribute/level'
+                        #response = requests.get(uri, headers=header)
+                        #r=response.json().get("value")
                         print(r)
                         if isinstance(r, int):
-                            uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
-                            print(uri)
-                            response = requests.get(uri, headers=header)
-
-        if myaction == "on" or myaction == "off":
-            p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
-            print(str(p))
-            hermes.publish_end_session(intent_message.session_id, p)
-        elif myaction == "up" or myaction == "down":
-            p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
-            print(str(p))
-            hermes.publish_end_session(intent_message.session_id, p)
-        else:
-            hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
+                            getApi(api,header,str(v),"setLevel?arg="+str(rounddown(r)))
+                            hermes.publish_end_session(intent_message.session_id, p)
+                            #uri=api + '/device/' + str(v) + '/command/setLevel?arg=' + str(rounddown(r))
+                            #print(uri)
+                            #response = requests.get(uri, headers=header)
+                hermes.publish_end_session(intent_message.session_id, p) 
+            else:
+                hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
+        #if myaction == "on" or myaction == "off":
+        #    p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
+        #    print(str(p))
+        #    hermes.publish_end_session(intent_message.session_id, p)
+        #elif myaction == "up" or myaction == "down":
+        #    p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
+        #    print(str(p))
+        #    hermes.publish_end_session(intent_message.session_id, p)
+        #else:
+        #    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
 
     def master_intent_callback(self,hermes, intent_message):
         coming_intent = intent_message.intent.intent_name
