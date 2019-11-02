@@ -15,7 +15,7 @@ MQTT_PORT: int = 1883
 MQTT_ADDR: str = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
 def saucy():
-    i=["and if by some means of sourcery ","try not to be like a democrat ","dont get your knickers in a twist ","sheesh ","Good gravy ","I give and I give and I give ","If I did not know any better you would think I am your slave ","O Kelly Clarkson ","Barking orders I see Do not forget I know where the bodies are burried ","It is time for a drink "]
+    i=["and if by some means of sourcery ","try not to be like a democrat ","dont get your knickers in a twist ","sheesh ","Good gravy ","I give and I give and I give ","If I did not know any better you would think I am your slave ","O Kelly Clarkson ","Barking orders I see do not forget I know where the bodies are burried ","It is time for a drink "]
     return random.choice(i)
 
 def roundup(x):
