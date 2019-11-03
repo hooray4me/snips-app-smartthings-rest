@@ -143,7 +143,7 @@ class Mylights(object):
                         getApi(api,header,str(v),"setLevel?arg=100")
                 else:
                     hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
-            elif if str(target) == "all_lights":
+            elif str(target) == "all_lights":
                 if myaction == "on" or myaction == "off":
                     getApi(api,header,str(v),myaction)
                     if myaction == "on":
