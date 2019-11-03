@@ -91,7 +91,10 @@ class Mylights(object):
             target = "one_light"
         print("target=" + str(target))
         if not intent_message.slots.device:
-            p=str(saucy()) + "I have set the mood to " + myaction + " Your Magesty"
+            if myaction == "let":
+                p="and then there was light"
+            else:
+                p=str(saucy()) + "I have set the mood to " + myaction + " Your Magesty"
         else:
             p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
         for k, v in DeviceIDs.items():
