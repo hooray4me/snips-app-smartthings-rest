@@ -77,7 +77,6 @@ class Mylights(object):
         header = {'Authorization': auth, 'Content-Type': 'application/json'}
         d=self.config.get("secret").get("devices")
         a=d.split(",")
-        p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
         DeviceIDs = dict(s.split(':') for s in a)
         print(DeviceIDs)
         print(device)
@@ -88,6 +87,10 @@ class Mylights(object):
         else:
             target = "one_light"
         print("target=" + str(target))
+        if not intent_message.slots.device:
+            p=str(saucy()) + "I have set the mood to " + myaction + " Your Magesty"
+        else:
+            p=str(saucy()) + "I have Turned " + myaction + " the " + device + " Your Magesty"
         for k, v in DeviceIDs.items():
             if not intent_message.slots.device:
                 if myaction == "daytime":
