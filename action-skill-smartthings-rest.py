@@ -183,8 +183,6 @@ class Mylights(object):
                         hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck") 
                 else:
                     hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")    
-            else:
-                hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
         if str(target) == "all_lights":
             hermes.publish_end_session(intent_message.session_id, p)
         if not intent_message.slots.device:
