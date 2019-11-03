@@ -80,10 +80,13 @@ class Mylights(object):
         DeviceIDs = dict(s.split(':') for s in a)
         print(DeviceIDs)
         print(device)
+        target="none"
         if device == "lights":
             target = "all_lights"
         elif device == "lamps":
             target = "lamps"
+        elif not intent_message.slots.device:
+            target = "none"
         else:
             target = "one_light"
         print("target=" + str(target))
@@ -183,6 +186,8 @@ class Mylights(object):
             else:
                 hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
         if str(target) == "all_lights":
+            hermes.publish_end_session(intent_message.session_id, p)
+        if not intent_message.slots.device:
             hermes.publish_end_session(intent_message.session_id, p)
     def master_intent_callback(self,hermes, intent_message):
         coming_intent = intent_message.intent.intent_name
