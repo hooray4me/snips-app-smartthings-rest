@@ -39,13 +39,19 @@ def rounddown(x):
         return y
 
 def getApi(api,header,id,cmd):
-    uri=api + '/device/' + str(id) + '/command/' + cmd
-    response = requests.get(uri, headers=header)
-
+    try:
+        uri=api + '/device/' + str(id) + '/command/' + cmd
+        response = requests.get(uri, headers=header)
+    except:
+        pass
 def apiResponse(api,header,id):
-    uri=api + '/device/' + str(id) + '/attribute/level'
-    response = requests.get(uri, headers=header)
-    return response.json().get("value")
+    try:
+        uri=api + '/device/' + str(id) + '/attribute/level'
+        response = requests.get(uri, headers=header)
+    except:
+        return "None"
+    finally:
+        return response.json().get("value")
 
 class Mylights(object):
 
@@ -59,8 +65,12 @@ class Mylights(object):
 
     def execCommand_callback(self, hermes, intent_message):
 
-        device = intent_message.slots.device.first().value
-        myaction = intent_message.slots.cmd.first().value
+        device=None
+        myaction=None
+        if intent_message.slots.device:
+            device = intent_message.slots.device.first().value
+        if intent_message.slots.cmd:
+            myaction = intent_message.slots.cmd.first().value
         token = self.config.get("secret").get("bearer-auth-token")
         api = self.config.get("secret").get("rest-api-url")
         auth = 'Bearer ' + token
@@ -79,7 +89,61 @@ class Mylights(object):
             target = "one_light"
         print("target=" + str(target))
         for k, v in DeviceIDs.items():
-            if str(target) == "all_lights":
+            if not intent_message.slots.device:
+                if myaction == "daytime":
+                    if str(k) == "Basement Left":
+                        getApi(api,header,str(v),"setLevel?arg=100")
+                        getApi(api,header,str(v),"setHue?arg=24")
+                        getApi(api,header,str(v),"setSaturation?arg=42")
+                        getApi(api,header,str(v),"setColorTemperature?arg=3012")
+                    elif str(k) == "Basement Right":
+                        getApi(api,header,str(v),"setLevel?arg=100")
+                        getApi(api,header,str(v),"setHue?arg=24")
+                        getApi(api,header,str(v),"setSaturation?arg=42")
+                        getApi(api,header,str(v),"setColorTemperature?arg=3012")
+                    elif str(k) == "Main Area":
+                        getApi(api,header,str(v),"setLevel?arg=65")
+                    elif str(k) == "Bar Area":
+                        getApi(api,header,str(v),"setLevel?arg=55")
+                    elif str(k) == "Bar":
+                        getApi(api,header,str(v),"setLevel?arg=45")
+                elif myaction == "evening":
+                    if str(k) == "Basement Left":
+                        getApi(api,header,str(v),"setLevel?arg=80")
+                        getApi(api,header,str(v),"setHue?arg=23")
+                        getApi(api,header,str(v),"setSaturation?arg=52")
+                        getApi(api,header,str(v),"setColorTemperature?arg=2809")
+                    elif str(k) == "Basement Right":
+                        getApi(api,header,str(v),"setLevel?arg=80")
+                        getApi(api,header,str(v),"setHue?arg=23")
+                        getApi(api,header,str(v),"setSaturation?arg=52")
+                        getApi(api,header,str(v),"setColorTemperature?arg=2809")
+                    elif str(k) == "Main Area":
+                        getApi(api,header,str(v),"setLevel?arg=18")
+                    elif str(k) == "Bar Area":
+                        getApi(api,header,str(v),"off")
+                    elif str(k) == "Bar":
+                        getApi(api,header,str(v),"setLevel?arg=35")
+                if myaction == "let":
+                    if str(k) == "Basement Left":
+                        getApi(api,header,str(v),"setLevel?arg=100")
+                        getApi(api,header,str(v),"setHue?arg=24")
+                        getApi(api,header,str(v),"setSaturation?arg=42")
+                        getApi(api,header,str(v),"setColorTemperature?arg=3012")
+                    elif str(k) == "Basement Right":
+                        getApi(api,header,str(v),"setLevel?arg=100")
+                        getApi(api,header,str(v),"setHue?arg=24")
+                        getApi(api,header,str(v),"setSaturation?arg=42")
+                        getApi(api,header,str(v),"setColorTemperature?arg=3012")
+                    elif str(k) == "Main Area":
+                        getApi(api,header,str(v),"setLevel?arg=100")
+                    elif str(k) == "Bar Area":
+                        getApi(api,header,str(v),"setLevel?arg=100")
+                    elif str(k) == "Bar":
+                        getApi(api,header,str(v),"setLevel?arg=100")
+                else:
+                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
+            elif if str(target) == "all_lights":
                 if myaction == "on" or myaction == "off":
                     getApi(api,header,str(v),myaction)
                     if myaction == "on":
