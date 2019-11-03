@@ -130,7 +130,7 @@ class Mylights(object):
                         getApi(api,header,str(v),"off")
                     elif str(k) == "Bar":
                         getApi(api,header,str(v),"setLevel?arg=35")
-                if myaction == "let":
+                elif myaction == "let":
                     if str(k) == "Basement Left":
                         getApi(api,header,str(v),"setLevel?arg=100")
                         getApi(api,header,str(v),"setHue?arg=24")
