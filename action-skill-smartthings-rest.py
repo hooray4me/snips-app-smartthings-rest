@@ -157,7 +157,7 @@ class Mylights(object):
                     elif str(k) == "Bar":
                         getApi(api,header,str(v),"setLevel?arg=100")
                 else:
-#                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
+                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
             elif str(target) == "all_lights":
                 if myaction == "on" or myaction == "off":
                     getApi(api,header,str(v),myaction)
@@ -189,9 +189,9 @@ class Mylights(object):
                             getApi(api,header,str(v),"setLevel?arg="+str(rounddown(r)))
                             hermes.publish_end_session(intent_message.session_id, p)
                     else:
-#                        hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck") 
+                        hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck") 
                 else:
-#                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")    
+                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")    
         if str(target) == "all_lights":
             hermes.publish_end_session(intent_message.session_id, p)
         if not intent_message.slots.device:
