@@ -18,6 +18,12 @@ def saucy():
     i=["and if by some means of sourcery ","try not to be like a democrat ","dont get your knickers in a twist ","sheesh ","good gravy ","i give and i give and i give ","if I did not know any better you would think i am your slave ","barking orders i see do not forget i know where the bodies are burried ","it is time for a drink "]
     return random.choice(i)
 
+def checkKey(dict, key):  
+    if key in dict: 
+        return True
+    else:
+        return False
+
 def roundup(x):
     i=[20,30,40,50,60,70,80,90]
     if (x in i):
@@ -151,7 +157,7 @@ class Mylights(object):
                     elif str(k) == "Bar":
                         getApi(api,header,str(v),"setLevel?arg=100")
                 else:
-                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
+#                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")
             elif str(target) == "all_lights":
                 if myaction == "on" or myaction == "off":
                     getApi(api,header,str(v),myaction)
@@ -165,7 +171,7 @@ class Mylights(object):
                     r=apiResponse(api,header,str(v))
                     if isinstance(r, int):
                         getApi(api,header,str(v),"setLevel?arg="+str(rounddown(r)))
-            elif str(target) == "one_light":
+            elif str(target) == "one_light" and checkKey(DeviceIDs, device):
                 print("current " + str(k))
                 if str(k) == device:
                     if myaction == "on" or myaction == "off":
@@ -183,9 +189,9 @@ class Mylights(object):
                             getApi(api,header,str(v),"setLevel?arg="+str(rounddown(r)))
                             hermes.publish_end_session(intent_message.session_id, p)
                     else:
-                        hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck") 
+#                        hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck") 
                 else:
-                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")    
+#                    hermes.publish_end_session(intent_message.session_id, "bugger, somethings a muck")    
         if str(target) == "all_lights":
             hermes.publish_end_session(intent_message.session_id, p)
         if not intent_message.slots.device:
